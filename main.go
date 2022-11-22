@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/fatih/color"
+)
 
 func main() {
 	var water, milk, beans, cups, money int
@@ -25,7 +28,7 @@ func main() {
 }
 
 func getAction(s *string) {
-	fmt.Println("Write action (buy, fill, take, remaining, exit):")
+	color.Blue("Write action (buy, fill, take, remaining, exit):")
 	_, err := fmt.Scanln(s)
 	if err != nil {
 		fmt.Println(err)
@@ -34,7 +37,7 @@ func getAction(s *string) {
 }
 
 func buy(water, milk, beans, cups, money *int) {
-	fmt.Println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:")
+	color.Blue("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:")
 	var coffee string
 	_, err := fmt.Scanln(&coffee)
 	if err != nil {
@@ -44,9 +47,9 @@ func buy(water, milk, beans, cups, money *int) {
 	case "1":
 		notEnough, ok := checkResources("espresso", *water, *milk, *beans, *cups)
 		if !ok {
-			fmt.Printf("Sorry, not enough %s!\n", notEnough)
+			color.Red("Sorry, not enough %s!\n", notEnough)
 		} else {
-			fmt.Println("I have enough resources, making you a coffee!")
+			color.Green("I have enough resources, making you a coffee!")
 			*water -= 250
 			*beans -= 16
 			*cups -= 1
@@ -55,9 +58,9 @@ func buy(water, milk, beans, cups, money *int) {
 	case "2":
 		notEnough, ok := checkResources("latte", *water, *milk, *beans, *cups)
 		if !ok {
-			fmt.Printf("Sorry, not enough %s!\n", notEnough)
+			color.Red("Sorry, not enough %s!\n", notEnough)
 		} else {
-			fmt.Println("I have enough resources, making you a coffee!")
+			color.Green("I have enough resources, making you a coffee!")
 			*water -= 350
 			*milk -= 75
 			*beans -= 20
@@ -67,9 +70,9 @@ func buy(water, milk, beans, cups, money *int) {
 	case "3":
 		notEnough, ok := checkResources("cappuccino", *water, *milk, *beans, *cups)
 		if !ok {
-			fmt.Printf("Sorry, not enough %s!\n", notEnough)
+			color.Red("Sorry, not enough %s!\n", notEnough)
 		} else {
-			fmt.Println("I have enough resources, making you a coffee!")
+			color.Green("I have enough resources, making you a coffee!")
 			*water -= 200
 			*milk -= 100
 			*beans -= 12
@@ -120,13 +123,13 @@ func checkResources(coffee string, water, milk, beans, cups int) (resource strin
 }
 
 func fill(water, milk, beans, cups *int) {
-	fmt.Println("Write how many ml of water you want to add:")
+	color.Cyan("Write how many ml of water you want to add:")
 	*water += getAmount()
-	fmt.Println("Write how many ml of milk you want to add:")
+	color.Cyan("Write how many ml of milk you want to add:")
 	*milk += getAmount()
-	fmt.Println("Write how many grams of coffee beans you want to add:")
+	color.Cyan("Write how many grams of coffee beans you want to add:")
 	*beans += getAmount()
-	fmt.Println("Write how many disposable cups you want to add:")
+	color.Cyan("Write how many disposable cups you want to add:")
 	*cups += getAmount()
 }
 
@@ -139,17 +142,17 @@ func getAmount() (amount int) {
 }
 
 func take(money *int) {
-	fmt.Printf("I gave you $%d\n", *money)
+	color.Green("I gave you $%d\n", *money)
 	*money = 0
 }
 
 func showState(water int, milk int, beans int, cups int, money int) {
-	fmt.Println("The coffee machine has:")
-	fmt.Printf("%d ml of water\n", water)
-	fmt.Printf("%d ml of milk\n", milk)
-	fmt.Printf("%d g of coffee beans\n", beans)
-	fmt.Printf("%d disposable cups\n", cups)
-	fmt.Printf("$%d of money\n", money)
+	color.Yellow("The coffee machine has:")
+	color.Yellow("%d ml of water\n", water)
+	color.Yellow("%d ml of milk\n", milk)
+	color.Yellow("%d g of coffee beans\n", beans)
+	color.Yellow("%d disposable cups\n", cups)
+	color.Yellow("$%d of money\n", money)
 }
 
 func initializeState(water, milk, beans, cups, money *int) {
